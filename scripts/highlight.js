@@ -10,11 +10,13 @@ function addClassAndTip(element, type, checked) {
   addClass(element, type, checked);
   var $element = $(element);
   var itsData = $element.getITSData();
-  var toolTip = type+'<br>';
+  if (itsData.translate)
+    delete itsData.translate;
+  var toolTip = '';
   $.each(itsData, function(key, value) {
     toolTip += key + '=' + value + '<br>';
   });
-  $element.simpletip({content: toolTip});
+  $element.simpletip({content: toolTip, fixed: false});
 }
 
 $(function() {
@@ -31,7 +33,8 @@ $(function() {
 
     $(':translate(no)').each(function() {
       $(this).simpletip({
-        content: 'This part will not be translated'
+        content: 'This part will not be translated',
+        fixed: false,
       });
     });
   });

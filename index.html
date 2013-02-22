@@ -11,6 +11,8 @@
       <its:translateRule selector="//@title|//@alt" translate="yes" />
       <its:translateRule selector="//h:code" translate="no" />
       <its:storageSizeRule selector="//h:h2" storageSize="50" />
+      <its:storageSizeRule selector="//*[contains(@class,'teaser')]" storageSize="1024" />
+      <its:allowedCharactersRule selector="//*[contains(@class,'date')]" allowedCharacters="[0-9\.]" />
       </its:rules>
   </script>
   <link href="main.css" type="text/css" rel="stylesheet">
@@ -20,7 +22,7 @@
 
 <article translate="yes">
   <h1 its-storage-size="30">Ein WWW, viele Sprachen</h1>
-  <p class="teaser">
+  <p class="teaser" its-loc-note="Dies ist der Teasertext, bitte bei der Übersetzung beachten.">
     W3C startet Standardisierungsprozess zur vereinfachten Übersetzung von Webinhalten in Weltsprachen.
     Das World Wide Web Consortium (<span translate="no">W3C</span>) startete gestern die Arbeitsgruppe für neue
     Standards, mit denen automatische und manuelle Übersetzung und Lokalisierung von Webinhalten wesentlich erleichtert
@@ -28,8 +30,8 @@
     (<span translate="no">DFKI</span>), dem Trinity College Dublin und der University of Limerick.
   </p>
 
-  <p class="date">
-    Berlin, 08.03.2012
+  <p class="info">
+    Berlin, <span class="date">08.03.2012</span>
   </p>
 
   <p>
@@ -138,7 +140,7 @@
     <a href="http://www.w3.org/International/multilingualweb/lt/">http://www.w3.org/International/multilingualweb/lt/</a>
   </p>
 
-  <p>
+  <p its-loc-note="Im Sinne von, wie der Gruppe geholfen werden kann.">
     Ihr Beitrag zur Arbeitsgruppe:
     <a href="http://www.w3.org/International/multilingualweb/lt/#contribute">http://www.w3.org/International/multilingualweb/lt/#contribute</a>
   </p>
@@ -173,17 +175,17 @@
         <input type="checkbox" id="translate" title="Translate" data-selector=":translate(no)" data-callback-name="addClass">
         <label for="translate">Translate</label>
       </li>
-      <li>
+      <li class="its-locNote">
         <input type="checkbox" id="locNote" title="Localization Note" data-selector=":locNote" data-callback-name="addClassAndTip">
         <label for="locNote">Localization Note</label>
       </li>
-      <li>
+      <li class="its-storageSize">
         <input type="checkbox" id="storageSize" title="Storage Size" data-selector=":storageSize" data-callback-name="addClassAndTip">
         <label for="storageSize">Storage Size</label>
       </li>
-      <li>
-        <input type="checkbox" id="allowedChars" title="Allowed Characters" data-selector=":allowedCharacters" data-callback-name="addClassAndTip">
-        <label for="allowedChars">Allowed Characters</label>
+      <li class="its-allowedCharacters">
+        <input type="checkbox" id="allowedCharacters" title="Allowed Characters" data-selector=":allowedCharacters" data-callback-name="addClassAndTip">
+        <label for="allowedCharacters">Allowed Characters</label>
       </li>
     </ul>
   </form>

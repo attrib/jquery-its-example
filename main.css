@@ -52,3 +52,17 @@ aside ul {
 .its-translate {
   background-color: #AAAAAA;
 }
+
+.its-storageSize {
+  background-color: #EEEEEE;
+}
+
+.its-allowedCharacters {
+  background-color: #777777;
+  color: #EEEEEE;
+}
+
+.its-locNote {
+  background-color: #333333;
+  color: #FFFFFF;
+}

@@ -167,7 +167,7 @@ RulesController = function() {
     };
     RulesController.prototype.addXML = function(xml) {
         var child, _i, _len, _ref, _results;
-        if (xml.tagName && xml.tagName.toLowerCase() === "its:rules" && $(xml).attr("version") === "2.0") {
+        if (xml.tagName && xml.tagName.toLowerCase() === "its:rules" && ($(xml).attr("version") === "2.0" || $(xml).attr("its:version") === "2.0")) {
             return this.parseXML(xml);
         } else {
             if (xml.hasChildNodes) {
