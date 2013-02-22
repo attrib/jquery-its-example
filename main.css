@@ -1,5 +1,6 @@
 body {
   background-color: #EEEEEE;
+  font-size: 1em;
 }
 
 .tooltip {
@@ -8,6 +9,8 @@ body {
   border-radius: 5px;
   color: #000000;
   display: none;
+  font-size: medium;
+  font-weight: normal;
   left: 0;
   padding: 5px;
   position: absolute;
@@ -15,21 +18,52 @@ body {
   z-index: 3;
 }
 
+header {
+  margin: 20px 2.5%;
+  width: 93%;
+}
+
+header h1, header img {
+  float: left;
+  margin: 0 10px;
+  line-height: 1em;
+}
+
+header img {
+  height: 2em;
+}
 /**
  * Article
  */
 
-article, aside {
+article, aside, header {
   background-color: #FFFFFF;
   border-radius: 10px;
   color: #000000;
   float: left;
-  margin: 2.5%;
+  margin: 20px 2.5%;
   padding: 1%;
 }
 
 article {
   width: 70%;
+}
+
+.teaser, .info {
+  font-weight: bold;
+  margin: 1.5em 0;
+}
+
+p {
+  margin: 0.5em 0;
+}
+
+h2 {
+  font-size: 1em;
+}
+
+a, a:visited, a:hover {
+  color: #928C8C;
 }
 
 /**
@@ -43,6 +77,10 @@ aside {
 aside ul {
   list-style: none;
   padding: 0;
+}
+
+.cocomore-logo {
+  text-align: right;
 }
 
 /**

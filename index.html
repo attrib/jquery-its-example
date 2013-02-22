@@ -20,6 +20,13 @@
 </head>
 <body>
 
+<header>
+  <img src="images/mlw-logo-lt.png" alt="Multilingual Web - Language Translation">
+  <h1>International Tag Set 2.0</h1>
+  <img src="images/fp7-logo.gif" alt="European Commission (project name LT-Web) through the Seventh Framework Programme (FP7)">
+  <img src="images/dfki.jpg" class="dfki-logo" alt="Deutsches Forschungszentrum für Künstliche Intelligenz">
+</header>
+
 <article translate="yes">
   <h1 its-storage-size="30">Ein WWW, viele Sprachen</h1>
   <p class="teaser" its-loc-note="Dies ist der Teasertext, bitte bei der Übersetzung beachten.">
@@ -134,7 +141,7 @@
     und Professorinnen aus den eigenen Reihen und 57 Spin-Off-Unternehmen mit mehr als 1.300 hochqualifizierten
     Arbeitsplätzen. Weitere Informationen: <a href="http://www.dfki.de">www.dfki.de</a>
   </p>
-
+  <br/>
   <p>
     Homepage der Arbeitsgruppe:
     <a href="http://www.w3.org/International/multilingualweb/lt/">http://www.w3.org/International/multilingualweb/lt/</a>
@@ -168,27 +175,33 @@
 </article>
 
 <aside>
+  <h1>JQuery Plugin ITS parser</h1>
+  <p>Open-Source Plugin for the Javascript Framework <a href="http://jquery.com">jQuery</a>. Download at <a href="http://plugins.jquery.com/its-parser/">plugins.jquery.com/its-parser</a></p>
   <form id="its-highlighter">
-    <p>Highlight ITS markup</p>
     <ul>
       <li class="its-translate">
-        <input type="checkbox" id="translate" title="Translate" data-selector=":translate(no)" data-callback-name="addClass">
+        <input type="checkbox" id="translate" title="Translate" data-selector=":translate(no)">
         <label for="translate">Translate</label>
       </li>
       <li class="its-locNote">
-        <input type="checkbox" id="locNote" title="Localization Note" data-selector=":locNote" data-callback-name="addClassAndTip">
+        <input type="checkbox" id="locNote" title="Localization Note" data-selector=":locNote">
         <label for="locNote">Localization Note</label>
       </li>
       <li class="its-storageSize">
-        <input type="checkbox" id="storageSize" title="Storage Size" data-selector=":storageSize" data-callback-name="addClassAndTip">
+        <input type="checkbox" id="storageSize" title="Storage Size" data-selector=":storageSize">
         <label for="storageSize">Storage Size</label>
       </li>
       <li class="its-allowedCharacters">
-        <input type="checkbox" id="allowedCharacters" title="Allowed Characters" data-selector=":allowedCharacters" data-callback-name="addClassAndTip">
+        <input type="checkbox" id="allowedCharacters" title="Allowed Characters" data-selector=":allowedCharacters">
         <label for="allowedCharacters">Allowed Characters</label>
       </li>
     </ul>
+    <p>
+      Select a data category to highlight the selected data category in the content view. Its also possible to see
+      further information and category values, when you scroll over a highlighted content.
+    </p>
   </form>
+  <p class="cocomore-logo"><a href="http://www.cocomore.de"><img src="images/cocomore.png" alt="Cocomore AG" title="Cocomore AG" /></a></p>
 </aside>
 
 </body>
