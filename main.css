@@ -1,0 +1,54 @@
+body {
+  background-color: #EEEEEE;
+}
+
+.tooltip {
+  background: #ffffff;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: #000000;
+  display: none;
+  left: 0;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  z-index: 3;
+}
+
+/**
+ * Article
+ */
+
+article, aside {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  color: #000000;
+  float: left;
+  margin: 2.5%;
+  padding: 1%;
+}
+
+article {
+  width: 70%;
+}
+
+/**
+ * Sidebar
+ */
+
+aside {
+  width: 16%;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+}
+
+/**
+ * ITS categories
+ */
+
+.its-translate {
+  background-color: #AAAAAA;
+}
