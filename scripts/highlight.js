@@ -1,4 +1,16 @@
+/**
+ * @file Highlight ITS data categories on click of the corresponding checkbox.
+ *
+ * Depends on jQuery, ITS-parser plugin and simpletip.
+ */
+
 $(function() {
+  /**
+   * Add Class and a JS Tooltip to the element with the type
+   * @param element HTMLNode a node which has this data category
+   * @param type string with the type of the data category
+   * @param checked boolean true if the checkbox is now selected
+   */
   function addClassAndTip(element, type, checked) {
     var $element = $(element);
     var itsData = $element.getITSData();
@@ -21,6 +33,11 @@ $(function() {
       $element.removeClass(className);
   }
 
+  /**
+   * Parse all ITS data, including global rules.
+   * When finished add a on click handler on the checkboxes,
+   * which shows or hides meta data categories.
+   */
   $.parseITS(function() {
     $('#its-highlighter').find('input[type=checkbox]').click(function() {
       var $this = $(this);
