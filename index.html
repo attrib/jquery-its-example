@@ -6,6 +6,8 @@
   <script src="scripts/jquery.simpletip.js" type="text/javascript"></script>
   <script src="scripts/jquery.its-parser.js" type="text/javascript"></script>
   <script src="scripts/highlight.js" type="text/javascript"></script>
+
+  <script src="scripts/edit.js" type="text/javascript"></script>
   <script type="application/its+xml">
     <its:rules xmlns:h="http://www.w3.org/1999/xhtml" xmlns:its="http://www.w3.org/2005/11/its" its:version="2.0" >
       <its:translateRule selector="//@title|//@alt" translate="yes" />
@@ -48,7 +50,7 @@
   </p>
 
   <p>
-    Die Reaktion: Das World Wide Web Consortium W3C hat gestern die Gründung der Arbeitsgruppe MultilingualWeb–Language
+    Die Reaktion: Das World Wide Web Consortium <span translate="no">W3C</span> hat gestern die Gründung der Arbeitsgruppe MultilingualWeb–Language
     Technologies (<span translate="no">MLW-LT</span>) bekannt gegeben. Durch das Projekt wird die Erstellung von
     Webinhalten in Weltsprachen vereinfacht. Die neue Arbeitsgruppe <span translate="no">MLW-LT</span> wird Standards
     entwickeln, um automatische und manuelle Übersetzung sowie die Anpassung von Webinhalten an lokale Bedürfnisse zu
@@ -177,7 +179,9 @@
 <aside>
   <h1>JQuery Plugin ITS parser</h1>
   <p>Open-Source Plugin for the Javascript Framework <a href="http://jquery.com">jQuery</a>. Download at <a href="http://plugins.jquery.com/its-parser/">plugins.jquery.com/its-parser</a></p>
+  <p class="cocomore-logo"><a href="http://www.cocomore.de"><img src="images/cocomore.png" alt="Cocomore AG" title="Cocomore AG" /></a></p>
   <form id="its-highlighter">
+    <h2>Highlight ITS</h2>
     <ul>
       <li class="its-translate">
         <input type="checkbox" id="translate" title="Translate" data-selector=":translate(no)">
@@ -201,7 +205,31 @@
       further information and category values, when you scroll over a highlighted content.
     </p>
   </form>
-  <p class="cocomore-logo"><a href="http://www.cocomore.de"><img src="images/cocomore.png" alt="Cocomore AG" title="Cocomore AG" /></a></p>
+
+  <form id="its-setter">
+    <h2>Set new ITS Data</h2>
+    <ul>
+      <li class="its-translate">
+        <a href="#translate">Translate</a>
+      </li>
+      <li class="its-locNote">
+        <a href="#locNote">Localization Note</a>
+      </li>
+      <li class="its-storageSize">
+        <a href="#storageSize">Storage Size</a>
+      </li>
+      <li class="its-allowedCharacters">
+        <a href="#allowedCharacters">Allowed Characters</a>
+      </li>
+      <li class="its-rules">
+        <a href="#rules">Show global rules</a>
+      </li>
+    </ul>
+    <p>
+      Mark content to add/edit ITS data and then click on a data category here.
+    </p>
+  </form>
+
 </aside>
 
 </body>

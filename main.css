@@ -83,6 +83,11 @@ aside ul {
   text-align: right;
 }
 
+#its-setter a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /**
  * ITS categories
  */
