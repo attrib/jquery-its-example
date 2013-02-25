@@ -6,12 +6,16 @@
 
 /**
  * Add Class and a JS Tooltip to the element with the type
- * @param element HTMLNode a node which has this data category
+ * @param element HTMLNode a node which has this data category or a jQuery object
  * @param type string with the type of the data category
  * @param checked boolean true if the checkbox is now selected
  */
 function addClassAndTip(element, type, checked) {
-  var $element = $(element);
+  var $element;
+  if (!element.jquery)
+    $element = $(element);
+  else
+    $element = element;
   var itsData = $element.getITSData();
   var className = 'its-'+type;
   if (itsData.translate && type !== 'translate')
