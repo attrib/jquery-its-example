@@ -1,6 +1,7 @@
 body {
   background-color: #EEEEEE;
   font-size: 1em;
+  font-family: verdana, arial, sans-serif;
 }
 
 .tooltip {
@@ -93,11 +94,12 @@ aside ul {
  */
 
 .its-translate {
-  background-color: #AAAAAA;
+  background-color: #aa3f39;
+  color: white;
 }
 
 .its-storageSize {
-  background-color: #EEEEEE;
+  background-color: #488bee;
 }
 
 .its-allowedCharacters {
@@ -106,6 +108,6 @@ aside ul {
 }
 
 .its-locNote {
-  background-color: #333333;
+  background-color: #748034;
   color: #FFFFFF;
 }

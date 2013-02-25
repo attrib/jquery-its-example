@@ -15,22 +15,26 @@ $(function() {
     var $element = $(element);
     var itsData = $element.getITSData();
     var className = 'its-'+type;
-    if (itsData.translate)
+    if (itsData.translate && type !== 'translate')
       delete itsData.translate;
-    var toolTip = '';
-    if (type === 'translate') {
-      toolTip = 'This part will not be translated';
+    if (checked) {
+      var toolTip = '';
+      if (type === 'translate') {
+        toolTip = 'This part will not be translated';
+      }
+      else {
+        $.each(itsData, function(key, value) {
+          toolTip += key + '=' + value + '<br>';
+        });
+      }
+      $element.simpletip({content: toolTip, fixed: false});
+      $element.addClass(className);
     }
     else {
-      $.each(itsData, function(key, value) {
-        toolTip += key + '=' + value + '<br>';
-      });
-    }
-    $element.simpletip({content: toolTip, fixed: false});
-    if (checked)
-      $element.addClass(className);
-    else
       $element.removeClass(className);
+      $('> .tooltip', $element).remove();
+      $element.removeData('simpletip');
+    }
   }
 
   /**
