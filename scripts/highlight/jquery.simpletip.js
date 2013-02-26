@@ -10,6 +10,10 @@
  * Launch  : February 2009
  * Version : 1.3.1
  * Released: February 5, 2009 - 11:04am
+ *
+ * Patched by Karl Fritsche
+ *  Added appendTo configuration, to append tooltips to a different container then the element.
+ *
  */
 (function($){
 
@@ -17,13 +21,18 @@
    {
       var self = this;
       elem = jQuery(elem);
-      
+
+      var appendTo = conf.appendTo;
+      if (!appendTo) {
+        appendTo = elem;
+      }
+
       var tooltip = jQuery(document.createElement('div'))
                      .addClass(conf.baseClass)
                      .addClass( (conf.fixed) ? conf.fixedClass : '' )
                      .addClass( (conf.persistent) ? conf.persistentClass : '' )
                      .html(conf.content)
-                     .appendTo(elem);
+                     .appendTo(appendTo);
       
       if(!conf.hidden) tooltip.show();
       else tooltip.hide();
@@ -298,6 +307,9 @@
          fixedClass: 'fixed',
          persistentClass: 'persistent',
          focusClass: 'focus',
+
+         // COCOMORE: Append to special element
+         appendTo: false,
          
          // Callbacks
          onBeforeShow: function(){},

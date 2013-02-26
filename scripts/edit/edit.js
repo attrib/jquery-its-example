@@ -1,35 +1,29 @@
 /**
  * @file Add/Edit ITS data into the content.
  *
- * Depends on jQuery, ITS-parser plugin.
+ * Depends on jQuery, ITS-parser plugin and jQuery UI (Dialog with it dependencies)
  */
 $(function() {
-  function replaceSelectedText(replacementText) {
-    var sel, range;
-    if (window.getSelection) {
-      sel = window.getSelection();
-      if (sel.rangeCount) {
-        range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(document.createTextNode(replacementText));
-      }
-    } else if (document.selection && document.selection.createRange) {
-      range = document.selection.createRange();
-      range.text = replacementText;
-    }
-  }
 
-  function finishEditing(modal, type, $element, callback) {
+  function finishEditing(modal, type, $element) {
     if (modal)
       $(modal).dialog('close').remove();
 
-    if (callback && typeof callback === 'function')
-      callback($element);
-
     // Refresh the highlight of this element, if the checkbox is checked
-    if ($('#' + type).is(':checked')) {
-      addClassAndTip($element, type, true);
+    var checkbox = $('#' + type);
+    if (checkbox.is(':checked')) {
+      addClassAndTip($element, type, false);
+      var data = checkbox.data();
+      if (data.selector && $element.is(data.selector)) {
+        addClassAndTip($element, type, true);
+      }
     }
+
+    // Remove empty spans
+    if ($element.prop('nodeName').toLowerCase() == 'span' && $element.prop('attributes').length == 0) {
+      $element.replaceWith($element.html());
+    }
+
   }
 
   function getDataFromModal(modal) {
@@ -45,21 +39,36 @@ $(function() {
     return data;
   }
 
-  function defineITSData(type, $element, callback) {
+  function defineITSData(type, $element) {
     var modal = false,
       edit = false,
+      global = true,
       itsData = $element.getITSData();
 
     switch (type) {
       case 'translate':
       default:
         if (!itsData.translate) {
-          $element.removeAttr('translate');
+          // no global rule
+          if ($element.get(0).hasAttribute('translate')) {
+            $element.removeAttr('translate');
+          }
+          // this is set by a global rule, so force to translate
+          else {
+            $element.attr('translate', 'yes');
+          }
         }
         else {
-          $element.attr('translate', 'no');
+          // its translate='yes', so it seems there is a global rule, for it, so only remove this attribute
+          if ($element.get(0).hasAttribute('translate') && ($element.attr('translate') === 'yes' || $element.attr('translate') === true)) {
+            $element.removeAttr('translate');
+          }
+          // no global rule
+          else {
+            $element.attr('translate', 'no');
+          }
         }
-        finishEditing(false, type, $element, callback);
+        finishEditing(false, type, $element);
         break;
 
       case 'locNote':
@@ -69,6 +78,9 @@ $(function() {
           '</div>');
         if (itsData.locNote) {
           edit = true;
+          if ($element.attr('its-loc-note')) {
+            global = false;
+          }
         }
         break;
 
@@ -80,6 +92,9 @@ $(function() {
           '</div>');
         if (itsData.storageSize) {
           edit = true;
+          if ($element.attr('its-storage-size')) {
+            global = false;
+          }
         }
         break;
 
@@ -90,6 +105,9 @@ $(function() {
           '</div>');
         if (itsData.allowedCharacters) {
           edit = true;
+          if ($element.attr('its-allowed-characters')) {
+            global = false;
+          }
         }
         break;
 
@@ -117,18 +135,18 @@ $(function() {
       var buttons = {};
       if (edit) {
         buttons.edit = function () {
-          // TODO edit global?
           $.each(getDataFromModal(modal), function(attrName, value) {
             $element.attr(attrName, value);
           });
-          finishEditing(this, type, $element, callback);
+          finishEditing(this, type, $element);
         };
-        buttons.remove = function () {
-          // TODO remove global?
-          $.each(getDataFromModal(modal), function(attrName, value) {
-            $element.removeAttr(attrName);
-          });
-          finishEditing(this, type, $element, callback);
+        if (!global) {
+          buttons.remove = function () {
+            $.each(getDataFromModal(modal), function(attrName, value) {
+              $element.removeAttr(attrName);
+            });
+            finishEditing(this, type, $element);
+          }
         }
       }
       else {
@@ -136,11 +154,11 @@ $(function() {
           $.each(getDataFromModal(modal), function(attrName, value) {
             $element.attr(attrName, value);
           });
-          finishEditing(this, type, $element, callback);
+          finishEditing(this, type, $element);
         };
       }
       buttons.close = function () {
-        finishEditing(this, type, $element, callback);
+        finishEditing(this, type, $element);
       };
 
       modal.dialog('option', 'buttons', buttons);
@@ -169,18 +187,49 @@ $(function() {
             currentNode = currentNode.parentNode;
           }
           if (currentNode.nodeName === '#text') {
-            defineITSData(type, $(document.createElement('span')), function($element) {
-              $element.html(currentNode);
-              currentNode = $element.get(0);
-              range.insertNode(currentNode);
-            });
+            var outerSpan = $(document.createElement('span'));
+            outerSpan.html(currentNode);
+            currentNode = outerSpan.get(0);
+            range.insertNode(currentNode);
+            defineITSData(type, outerSpan);
           }
           else {
             defineITSData(type, $(currentNode));
           }
         }
         else {
-          // TODO selection
+          var content, newElement = false;
+          console.log(range.startContainer, range.startOffset);
+          console.log(range.endContainer, range.endOffset);
+
+          console.log(range.startContainer.nodeName, range.endContainer.nodeName);
+          // selection of a text
+          if (range.startContainer.nodeName === '#text' && range.endContainer.nodeName === '#text') {
+            // the selected text has the same length then the node which is selected
+            // therefore we selected this node completely and don't add an additional span
+            // chrome (selection is inside of the node - <a>    |aaaa|</a> )
+            if (range.startContainer.parentNode && range.startOffset == 0 && $.trim(range.toString()) === $.trim(range.startContainer.parentNode.textContent)) {
+              content = $(range.startContainer.parentNode);
+            }
+            // firefox (selection is outside of the node - |<a>    aaaa</a>| )
+            else if (range.startContainer.nextSibling && range.endOffset == 0 && $.trim(range.toString()) === $.trim(range.startContainer.nextSibling.textContent)) {
+              content = $(range.startContainer.nextSibling);
+            }
+            // otherwise take the selected text and replace it
+            else {
+              content = $(document.createElement('span'));
+              content.html(range.extractContents());
+              range.insertNode(content.get(0));
+            }
+          }
+          else {
+            console.log('TODO');
+          }
+
+          if (typeof content !== 'undefined' ) {
+            console.log(newElement, content);
+            defineITSData(type, content);
+          }
         }
       }
     }

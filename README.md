@@ -23,8 +23,8 @@ Highlight ITS Data
 On the right side you can find checkboxes. When clicking a checkbox the corresponding ITS data will be highlighted.
 We are using here the data attribute to define the selector, each checkbox has to use to highlight the correct content.
 
-The code can be found under scripts/highlight.js and it depends on (JQuery)[http://www.jquery.com] and the
-(Simpletip)[http://craigsworks.com/projects/simpletip/] JQuery Plugin to do the nice tooltip.
+The code can be found under scripts/highlight.js and it depends on (JQuery)[http://www.jquery.com] and a minimal patched
+the version of (Simpletip)[http://craigsworks.com/projects/simpletip/] JQuery Plugin to do the nice tooltip.
 
 Edit ITS Data
 -------------
@@ -34,4 +34,5 @@ You can select content and then click on the corresponding ITS data category nam
 This will add the data category. Depending on the data category a overlay will show to set more data.
 If the data category is already added you can edit or remove the category within the overlay.
 
-The code can be found under scripts/edit.js and it depends on (JQuery)[http://www.jquery.com].
+The code can be found under scripts/edit.js and it depends on (JQuery)[http://www.jquery.com] and
+(JQuery UI)[http://www.jqueryui.com] (Dialog and dependencies).

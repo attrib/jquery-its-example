@@ -30,13 +30,29 @@ function addClassAndTip(element, type, checked) {
         toolTip += key + '=' + value + '<br>';
       });
     }
-    $element.simpletip({content: toolTip, fixed: false});
+    $element.simpletip({content: toolTip, fixed: true, position: 'bottom', appendTo: '#tooltip-container'});
     $element.addClass(className);
   }
   else {
     $element.removeClass(className);
-    $('> .tooltip', $element).remove();
-    $element.removeData('simpletip');
+    if ($element.attr('class') === '')
+      $element.removeAttr('class');
+    var simpletip = $element.data('simpletip');
+    if (simpletip) {
+      simpletip.getTooltip().remove();
+      $element.removeData('simpletip');
+    }
+  }
+}
+
+function updateHighlighting() {
+  var $this = $(this);
+  var data = $this.data();
+  var id = this.id;
+  if (data.selector) {
+    $(data.selector).each(function() {
+      addClassAndTip(this, id, $this.is(':checked'));
+    });
   }
 }
 
@@ -48,18 +64,7 @@ $(function() {
    * which shows or hides meta data categories.
    */
   $.parseITS(function() {
-    $('#its-highlighter').find('input[type=checkbox]').click(function() {
-      var $this = $(this);
-      var data = $this.data();
-      var id = this.id;
-      if (data.selector)
-        $(data.selector).each(function() {
-          addClassAndTip(this, id, $this.is(':checked'));
-        });
-    });
-
-
-
+    $('#its-highlighter').find('input[type=checkbox]').click(updateHighlighting);
   });
 
 });
