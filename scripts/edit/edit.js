@@ -274,5 +274,3 @@ $(function() {
 
   });
 });
-
-// $($('*[title]').get(0).attributes[1]).is(':translate(yes)')

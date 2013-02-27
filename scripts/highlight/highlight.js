@@ -65,6 +65,23 @@ $(function() {
    */
   $.parseITS(function() {
     $('#its-highlighter').find('input[type=checkbox]').click(updateHighlighting);
+
+    $('body *').each(function() {
+      console.log(this, this.attributes.length);
+      if (this.attributes.length > 0) {
+        var text = '';
+        $.each(this.attributes, function() {
+          console.log(this);
+          if ($(this).is(':translate(yes)')) {
+            text +=  'Attribute ' + this.nodeName + ' is translatable.' + '<br>'
+          }
+        });
+        console.log('text');
+        if (text !== '') {
+          $(this).simpletip({content: text, fixed: true, position: 'right', appendTo: '#tooltip-container'})
+        }
+      }
+    });
   });
 
 });
