@@ -5,6 +5,16 @@
  */
 $(function() {
 
+  /**
+   * Standard function after editing a element.
+   *
+   * Close modal and remove it. Update the highlight class and tooltip of the element.
+   * Remove empty spans.
+   *
+   * @param modal
+   * @param type
+   * @param $element
+   */
   function finishEditing(modal, type, $element) {
     if (modal)
       $(modal).dialog('close').remove();
@@ -26,6 +36,14 @@ $(function() {
 
   }
 
+  /**
+   * Get the input data from a open modal.
+   *
+   * @param modal
+   *
+   * @return {Object}
+   *   key is the its attribute name and value the input data
+   */
   function getDataFromModal(modal) {
     var data = {};
     $('.value', modal).each(function() {
@@ -39,6 +57,15 @@ $(function() {
     return data;
   }
 
+  /**
+   * Depending on type open a modal to input the ITS data and set this data or set it directly (only translate).
+   *
+   * @param type string
+   *   One of translate|locNote|stroageSize|allowedCharacters.
+   *
+   * @param $element
+   *   jQuery element which is selected.
+   */
   function defineITSData(type, $element) {
     var modal = false,
       edit = false,
@@ -49,21 +76,21 @@ $(function() {
       case 'translate':
       default:
         if (!itsData.translate) {
-          // no global rule
+          // No global rules.
           if ($element.get(0).hasAttribute('translate')) {
             $element.removeAttr('translate');
           }
-          // this is set by a global rule, so force to translate
+          // This is set by a global rule, so force to translate.
           else {
             $element.attr('translate', 'yes');
           }
         }
         else {
-          // its translate='yes', so it seems there is a global rule, for it, so only remove this attribute
+          // Its translate='yes', so it seems there is a global rule, for it, so only remove this attribute.
           if ($element.get(0).hasAttribute('translate') && ($element.attr('translate') === 'yes' || $element.attr('translate') === true)) {
             $element.removeAttr('translate');
           }
-          // no global rule
+          // No global rules.
           else {
             $element.attr('translate', 'no');
           }
@@ -167,6 +194,9 @@ $(function() {
     }
   }
 
+  /**
+   * Getting the selected dom elements, when clicking on one of the links.
+   */
   $('#its-setter').find('li a').click(function(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -176,6 +206,7 @@ $(function() {
     var type = $this.attr('href').replace(/#/, '');
     console.log(type);
     // IE9+, anything else
+    // Retrieving a dom element from a selection is a pain in the ass!
     if (window.getSelection) {
       var selection = window.getSelection();
 
@@ -198,36 +229,43 @@ $(function() {
           }
         }
         else {
-          var content, newElement = false;
-          console.log(range.startContainer, range.startOffset);
-          console.log(range.endContainer, range.endOffset);
+          var content,
+            startNode = range.startContainer.childNodes[range.startOffset] || range.startContainer,
+            endNode   = range.endContainer.childNodes[range.endOffset] || range.endContainer;
+          console.log(startNode, range.startOffset);
+          console.log(endNode, range.endOffset);
 
-          console.log(range.startContainer.nodeName, range.endContainer.nodeName);
+          console.log(startNode.nodeName, endNode.nodeName);
           // selection of a text
-          if (range.startContainer.nodeName === '#text' && range.endContainer.nodeName === '#text') {
-            // the selected text has the same length then the node which is selected
-            // therefore we selected this node completely and don't add an additional span
-            // chrome (selection is inside of the node - <a>    |aaaa|</a> )
-            if (range.startContainer.parentNode && range.startOffset == 0 && $.trim(range.toString()) === $.trim(range.startContainer.parentNode.textContent)) {
-              content = $(range.startContainer.parentNode);
+          if (startNode.nodeName === '#text' && endNode.nodeName === '#text') {
+            // TODO: detect switching of nodes <p>|aaaa</p><p>bbbb|</p>
+
+            // The selected text has the same length then the node which is selected.
+            // Therefore we selected this node completely and don't add an additional span.
+            // For Chrome (selection is inside of the node - <a>    |aaaa|</a> ).
+            if (startNode.parentNode && range.startOffset == 0 && $.trim(range.toString()) === $.trim(startNode.parentNode.textContent)) {
+              content = $(startNode.parentNode);
             }
-            // firefox (selection is outside of the node - |<a>    aaaa</a>| )
-            else if (range.startContainer.nextSibling && range.endOffset == 0 && $.trim(range.toString()) === $.trim(range.startContainer.nextSibling.textContent)) {
-              content = $(range.startContainer.nextSibling);
+            // For Firefox (selection is outside of the node - |<a>    aaaa</a>| ).
+            else if (startNode.nextSibling && range.endOffset == 0 && $.trim(range.toString()) === $.trim(startNode.nextSibling.textContent)) {
+              content = $(startNode.nextSibling);
             }
-            // otherwise take the selected text and replace it
+            // Not the complete text is selected, so add a span around the selected text now.
             else {
               content = $(document.createElement('span'));
               content.html(range.extractContents());
               range.insertNode(content.get(0));
             }
           }
+          // Paragraph or similar selected.
           else {
-            console.log('TODO');
+            console.log('TODO', range.commonAncestorContainer);
+
+
           }
 
           if (typeof content !== 'undefined' ) {
-            console.log(newElement, content);
+            console.log(content);
             defineITSData(type, content);
           }
         }
