@@ -75,7 +75,7 @@ $(function() {
           }
         });
         if (text !== '') {
-          $(this).simpletip({content: text, fixed: true, position: 'right', appendTo: '#tooltip-container'})
+          $(this).simpletip({content: text, fixed: true, position: 'bottom', appendTo: '#tooltip-container'})
         }
       }
     });
