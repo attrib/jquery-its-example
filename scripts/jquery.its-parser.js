@@ -56,6 +56,7 @@ XPath = function() {
     };
     XPath.prototype.process = function(selector) {
         var attribute, docElement, domElement, nsResolver, res, result, xpe;
+        if (!this.element) return false;
         selector = this.filter(selector);
         xpe = new XPathEvaluator();
         domElement = this.element.get(0);
